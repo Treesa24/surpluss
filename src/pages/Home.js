@@ -1,33 +1,52 @@
+import { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import "./Home.css";
 
 function Home() {
-  const surplusItems = [
-    { id: 1, shop: "RESTAURANT A", item: "PASTA BOX", price: "$3", time: "11:00 PM" },
-    { id: 2, shop: "BAKERY B", item: "PASTRY BAG", price: "$2", time: "10:30 PM" },
-  ];
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    // Reference the "listings" collection
+    const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
+
+    // Listen for real-time updates
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const itemsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setItems(itemsData);
+    });
+
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, []);
 
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>SURPLUS SAVER</h1>
-        <span>[MAP VIEW]</span>
+        <h1>SURPLUS FEED</h1>
+        <span>[ACTIVE OFFERS]</span>
       </header>
 
-      <div className="line thick"></div>
+      <div className="line thick" style={{backgroundColor: 'black', height: '6px'}}></div>
       
       <div className="feed">
-        {surplusItems.map(item => (
-          <div key={item.id} className="item-card">
-            <div className="item-details">
-              <span className="shop-name">{item.shop}</span>
-              <h2>{item.item}</h2>
-              <p>COLLECT BY: {item.time}</p>
+        {items.length > 0 ? (
+          items.map(item => (
+            <div key={item.id} className="item-card">
+              <div className="item-details">
+                <span className="shop-name">AVAILABLE NOW</span>
+                <h2>{item.itemName}</h2>
+                <p>COLLECT BY: {item.pickupTime}</p>
+                <p className="price-tag">WAS: <strike>${item.originalPrice}</strike> | NOW: ${item.surplusPrice}</p>
+              </div>
+              <button className="reserve-btn">RESERVE</button>
             </div>
-            <button className="reserve-btn">
-              {item.price} <br/> RESERVE
-            </button>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p style={{marginTop: '2rem', fontWeight: '800'}}>NO SURPLUS AVAILABLE CURRENTLY.</p>
+        )}
       </div>
     </div>
   );
