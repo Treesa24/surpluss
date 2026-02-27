@@ -1,38 +1,304 @@
-.item-card {
-  margin: 1.5rem 0;
+:root {
+  --b-black: #000000;
+  --b-white: #ffffff;
+  --b-gray: #e0e0e0;
+}
+
+.home-container {
+  max-width: 500px; /* Kept mobile-focused for app feel */
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--b-white);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.home-header {
+  border-bottom: 8px solid var(--b-black);
   padding-bottom: 1rem;
-  border-bottom: 4px solid var(--odin-black);
+}
+
+.header-meta {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-}
-
-.shop-name {
-  font-size: 0.7rem;
-  background: var(--odin-black);
-  color: var(--odin-bg);
-  padding: 2px 6px;
-  font-weight: 800;
-}
-
-.item-details h2 {
-  font-size: 2rem;
+  font-size: 0.6rem;
   font-weight: 900;
-  margin: 0.5rem 0;
+  letter-spacing: 2px;
 }
 
-.item-details p {
-  font-size: 0.8rem;
+.main-logo {
+  font-size: 2.5rem;
+  font-weight: 950;
+  margin: 0.5rem 0;
+  line-height: 0.9;
+}
+
+.location-strip {
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-dot {
+  width: 8px;
+  height: 8px;
+  background: red; /* Only bit of color for 'Live' feel */
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 1.5rem 0;
+  scrollbar-width: none;
+}
+
+.filter-pill {
+  white-space: nowrap;
+  background: transparent;
+  border: 2px solid var(--b-black);
+  padding: 6px 15px;
+  font-weight: 900;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.filter-pill.active {
+  background: var(--b-black);
+  color: white;
+}
+
+/* Restaurant Card V2 */
+.res-card-v2 {
+  border: 4px solid var(--b-black);
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.res-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px var(--b-black);
+}
+
+.res-visual {
+  height: 140px;
+  background: var(--b-gray);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.visual-pattern {
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%);
+  background-size: 10px 10px;
+}
+
+.res-category-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--b-black);
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.6rem;
+  font-weight: 900;
+}
+
+.res-details {
+  padding: 1rem;
+}
+
+.res-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.res-title-row h2 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.res-meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
-.reserve-btn {
-  background: var(--odin-black);
-  color: var(--odin-bg);
+.offer-count {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+/* Detail View Specifics */
+.detail-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-pill {
+  background: var(--b-black);
+  color: white;
   border: none;
-  padding: 1rem;
+  padding: 8px 12px;
   font-weight: 900;
-  text-align: center;
+  font-size: 0.65rem;
   cursor: pointer;
-  min-width: 100px;
+}
+
+.nav-id {
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: #888;
+}
+
+.res-name-title {
+  font-size: 3.5rem;
+  font-weight: 950;
+  line-height: 0.8;
+  margin: 1rem 0;
+  letter-spacing: -2px;
+}
+
+.category-pill {
+  display: inline-block;
+  border: 2px solid black;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.res-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat-block .label {
+  display: block;
+  font-size: 0.55rem;
+  font-weight: 900;
+  color: #666;
+}
+
+.stat-block .value {
+  font-weight: 900;
+  font-size: 0.9rem;
+}
+
+/* Menu Items V2 */
+.section-header {
+  font-size: 0.8rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.menu-item-v2 {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border: 2px solid black;
+  margin-bottom: 1rem;
+  background: white;
+}
+
+.item-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-header-row h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.qty-counter {
+  background: #eee;
+  padding: 2px 6px;
+  font-size: 0.6rem;
+  font-weight: 900;
+}
+
+.item-subtext {
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deal-price {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.original-price {
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.discount-tag {
+  background: #000;
+  color: #fff;
+  font-size: 0.6rem;
+  padding: 2px 4px;
+  font-weight: 900;
+}
+
+.action-trigger {
+  background: white;
+  border: 3px solid black;
+  font-weight: 900;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.action-trigger:hover:not(:disabled) {
+  background: black;
+  color: white;
+}
+
+.action-trigger:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.detail-footer {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  opacity: 0.5;
 }

@@ -1,67 +1,91 @@
 import { db } from "../firebase";
 import { doc, runTransaction } from "firebase/firestore";
-import "./Home.css"; // Reuse Home styles or create Detail.css
+import "./Home.css"; // Uses shared Home styles for consistency
 
 function RestaurantDetail({ vendor, onBack }) {
   
-  const handleReserve = async (itemId) => {
+  const handleReserve = async (itemId, itemName) => {
     const itemRef = doc(db, "listings", itemId);
 
     try {
       await runTransaction(db, async (transaction) => {
         const itemDoc = await transaction.get(itemRef);
-        if (!itemDoc.exists()) throw "Item no longer exists.";
+        if (!itemDoc.exists()) throw "OFFER_EXPIRED";
 
         const newQuantity = itemDoc.data().quantity - 1;
 
         if (newQuantity >= 0) {
           transaction.update(itemRef, { quantity: newQuantity });
         } else {
-          throw "OUT OF STOCK!";
+          throw "STOCK_DEPLETED";
         }
       });
-      alert("RESERVATION SECURED. PICKUP BEFORE WINDOW CLOSES.");
+      alert(`SUCCESS: ${itemName} RESERVED. SHOW CODE AT CHECKOUT.`);
     } catch (e) {
-      alert("Error: " + e);
+      alert("ERROR: " + e);
     }
   };
 
   return (
-    <div className="app-container">
-      <button className="back-btn" onClick={onBack}>← RETURN TO FEED</button>
-      
-      <div className="res-header">
-        <h1 className="big-title">{vendor.name}</h1>
-        <p className="res-meta">AUTHORIZED SURPLUS PROVIDER</p>
-      </div>
+    <div className="home-container detail-view">
+      {/* Navigation Header */}
+      <nav className="detail-nav">
+        <button className="back-pill" onClick={onBack}>← RETURN_TO_FEED</button>
+        <span className="nav-id">RES_ID: {vendor.id.slice(0, 6)}</span>
+      </nav>
 
-      <div className="line thin" style={{backgroundColor: 'black', height: '1px', margin: '2rem 0'}}></div>
+      <header className="res-profile">
+        <div className="category-pill">{vendor.category}</div>
+        <h1 className="res-name-title">{vendor.name}</h1>
+        <div className="res-stats">
+          <div className="stat-block">
+             <span className="label">PICKUP_ZONE</span>
+             <span className="value">COUNTER_01</span>
+          </div>
+          <div className="stat-block">
+             <span className="label">RATING</span>
+             <span className="value">4.8★</span>
+          </div>
+        </div>
+      </header>
 
-      <div className="menu-container">
+      <div className="line thick" style={{backgroundColor: 'black', height: '6px', margin: '1.5rem 0'}}></div>
+
+      <section className="menu-section">
+        <h3 className="section-header">ACTIVE_SURPLUS_BUNDLES</h3>
+        
         {vendor.items.map(item => (
-          <div key={item.id} className="menu-item-row">
-            <div className="item-main">
-              <h3>{item.itemName}</h3>
-              <p className="pickup-time">PICKUP BY: {item.pickupTime}</p>
-              <div className="price-box">
-                 <span className="current-price">${item.surplusPrice}</span>
-                 <strike className="old-price">${item.originalPrice}</strike>
+          <div key={item.id} className={`menu-item-v2 ${item.quantity === 0 ? 'sold-out' : ''}`}>
+            <div className="item-main-info">
+              <div className="item-header-row">
+                <h3>{item.itemName}</h3>
+                <span className="qty-counter">{item.quantity} LEFT</span>
+              </div>
+              <p className="item-subtext">COLLECTION_WINDOW: {item.pickupTime}</p>
+              
+              <div className="price-container">
+                <span className="deal-price">${item.surplusPrice}</span>
+                <span className="original-price">${item.originalPrice}</span>
+                <span className="discount-tag">
+                  -{Math.round((1 - item.surplusPrice / item.originalPrice) * 100)}%
+                </span>
               </div>
             </div>
-            
-            <div className="action-area">
-              <span className="qty-badge">{item.quantity} LEFT</span>
-              <button 
-                className="reserve-btn-v2"
-                onClick={() => handleReserve(item.id)}
-                disabled={item.quantity <= 0}
-              >
-                {item.quantity > 0 ? "RESERVE +" : "SOLD OUT"}
-              </button>
-            </div>
+
+            <button 
+              className="action-trigger"
+              onClick={() => handleReserve(item.id, item.itemName)}
+              disabled={item.quantity <= 0}
+            >
+              {item.quantity > 0 ? "RESERVE +" : "EXPIRED"}
+            </button>
           </div>
         ))}
-      </div>
+      </section>
+
+      <footer className="detail-footer">
+        <p>RESERVATION SECURES ITEM FOR 30 MINUTES</p>
+      </footer>
     </div>
   );
 }
