@@ -1,58 +1,144 @@
-.app-container {
-  max-width: 450px; /* Mobile width */
-  margin: 0 auto;
-  background-color: var(--odin-bg);
-  min-height: 100vh;
-  padding: 1.5rem;
-  border-left: 1px solid var(--odin-black);
-  border-right: 1px solid var(--odin-black);
+:root {
+  --neon-black: #0a0a0a;
+  --neon-white: #ffffff;
+  --neon-gray: #f2f2f2;
 }
 
-.app-header {
+.vendor-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  color: var(--neon-black);
+}
+
+.vendor-header {
+  border-bottom: 6px solid var(--neon-black);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.header-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
-.app-header h1 { font-size: 1.2rem; font-weight: 900; }
-
-.post-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1.5rem 0;
+.vendor-header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0.5rem 0;
 }
 
-.post-form input {
-  background: transparent;
-  border: 2px solid var(--odin-black);
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+}
+
+.section-label {
+  font-size: 0.8rem;
+  font-weight: 900;
+  background: var(--neon-black);
+  color: white;
+  display: inline-block;
+  padding: 4px 10px;
+  margin-bottom: 1.5rem;
+}
+
+.input-box {
+  margin-bottom: 1rem;
+}
+
+.input-box label {
+  display: block;
+  font-weight: 900;
+  font-size: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.input-box input, select {
+  width: 100%;
   padding: 1rem;
-  font-family: inherit;
+  border: 2px solid var(--neon-black);
   font-weight: 700;
-  text-transform: uppercase;
+  background: transparent;
 }
 
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.vendor-form input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--neon-black);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
 
-.post-btn {
-  background: var(--odin-black);
-  color: var(--odin-bg);
-  padding: 1.2rem;
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mega-post-btn {
+  width: 100%;
+  background: var(--neon-black);
+  color: white;
+  padding: 1.5rem;
   font-weight: 900;
   border: none;
   cursor: pointer;
+  transition: transform 0.1s;
 }
 
-.food-card {
+.mega-post-btn:active { transform: scale(0.98); }
+
+/* INVENTORY CARDS */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.inventory-card {
+  border: 2px solid var(--neon-black);
+  padding: 1rem;
+  position: relative;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.qty-tag { background: var(--neon-black); color: white; padding: 2px 6px; }
+
+.inventory-card h3 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin: 0.5rem 0;
+}
+
+.card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid var(--odin-black);
-  padding: 1rem;
   margin-top: 1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
 }
 
-.card-info h4 { font-weight: 900; }
-.card-info p { font-size: 0.7rem; font-weight: 700; }
-.card-price { font-size: 1.5rem; font-weight: 900; }
+.del-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  font-weight: 900;
+  font-size: 0.6rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
